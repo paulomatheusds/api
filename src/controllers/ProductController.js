@@ -4,12 +4,16 @@ const ProductController = {
     async create(request, response) {
         let messageReturn = ''
 
-        if (!request.body.name || !request.body.price){
-            messageReturn = 'Nome e preço são obrigatórios!'
+        if (!request.body.name || !request.body.price || !request.body.user_id){
+            messageReturn = 'Nome, preço e usuário são obrigatórios!'
+             return response.status(400).json({
+                message: messageReturn
+            });
         }else {
             ProductModel.create(request.body);
             messageReturn = 'Produto criado com sucesso'
         }
+        response.status(201);
         return response.json({
             message: messageReturn
         });
